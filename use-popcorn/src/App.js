@@ -9,7 +9,7 @@ import MovieList from './components/main/movie-list/MovieList';
 import WatchedSummary from './components/main/watched-list/WatchedSummary';
 import WatchedMoviesList from './components/main/watched-list/WatchedMoviesList';
 import Loader from './components/Loader';
-import { ErrorMessage } from './components/ErrorMessage';
+import ErrorMessage from './components/ErrorMessage';
 
 const API_KEY = 'API_KEY';
 
