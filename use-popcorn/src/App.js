@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { tempMovieData, tempWatchedData } from './data/static';
+import { useEffect, useState } from 'react';
 import NavBar from './components/nav-bar/NavBar';
 import Logo from './components/Logo';
 import Search from './components/Search';
@@ -10,9 +9,23 @@ import MovieList from './components/main/movie-list/MovieList';
 import WatchedSummary from './components/main/watched-list/WatchedSummary';
 import WatchedMoviesList from './components/main/watched-list/WatchedMoviesList';
 
+const API_KEY = 'API_KEY';
+
 function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const query = 'fountain';
+
+  useEffect(function () {
+    async function fetchMovies() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+    }
+    fetchMovies();
+  }, []);
 
   return (
     <>
