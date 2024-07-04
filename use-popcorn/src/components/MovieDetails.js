@@ -47,18 +47,27 @@ function MovieDetails({
 
   useEffect(
     function () {
-      setIsLoading(true);
       async function getMovieDetails() {
+        setIsLoading(true);
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&i=${selectedId}`
         );
         const data = await res.json();
+
+        setIsLoading(false);
         setMovie(data);
       }
       getMovieDetails();
-      setIsLoading(false);
     },
     [selectedId]
+  );
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+    },
+    [title]
   );
 
   return (
