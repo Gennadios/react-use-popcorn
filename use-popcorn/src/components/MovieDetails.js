@@ -2,9 +2,20 @@ import { useEffect, useState } from 'react';
 import Loader from './Loader';
 import StarRating from './StarRating';
 
-function MovieDetails({ selectedId, onCloseMovieDetails }) {
+function MovieDetails({
+  selectedId,
+  onCloseMovieDetails,
+  watched,
+  onAddWatched,
+}) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState('');
+
+  const isWatched = watched.some((movie) => movie.imdbID === selectedId);
+  const watchedUserRating = watched.find(
+    (movie) => movie.imdbID === selectedId
+  )?.userRating;
 
   const {
     Title: title,
@@ -19,7 +30,20 @@ function MovieDetails({ selectedId, onCloseMovieDetails }) {
     imdbRating,
   } = movie;
 
-  console.log(title, year);
+  function handleAdd() {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(' ').at(0)),
+      userRating,
+    };
+
+    onAddWatched(newWatchedMovie);
+    onCloseMovieDetails();
+  }
 
   useEffect(
     function () {
@@ -63,7 +87,26 @@ function MovieDetails({ selectedId, onCloseMovieDetails }) {
 
           <section>
             <div className='rating'>
-              <StarRating maxRating={10} fontSizePx={18} />
+              {!isWatched ? (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    fontSizePx={18}
+                    onSetRating={setUserRating}
+                  />
+
+                  {userRating && (
+                    <button className='btn-add' onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie <strong>{watchedUserRating}</strong>
+                  <span>🌟</span>
+                </p>
+              )}
             </div>
             <p>
               <em>{plot}</em>
