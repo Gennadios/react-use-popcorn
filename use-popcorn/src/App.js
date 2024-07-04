@@ -12,10 +12,8 @@ import Search from './components/Search';
 import WatchedMoviesList from './components/main/watched-list/WatchedMoviesList';
 import WatchedSummary from './components/main/watched-list/WatchedSummary';
 
-const API_KEY = 'API_KEY';
-
 function App() {
-  const [query, setQuery] = useState('inception');
+  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [watched, setWatched] = useState([]);
@@ -30,7 +28,7 @@ function App() {
           setError('');
 
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${query}`
           );
           if (!res.ok) {
             throw new Error('Something went wrong with fetching movies.');
@@ -62,7 +60,7 @@ function App() {
   );
 
   function handleSelectMovie(id) {
-    setSelectedId(id);
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
   }
 
   function handleCloseMovieDetails() {
