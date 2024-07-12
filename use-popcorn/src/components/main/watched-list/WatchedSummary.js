@@ -15,15 +15,15 @@ function WatchedSummary({ watched }) {
         </p>
         <p>
           <span>⭐️</span>
-          <span>{avgImdbRating}</span>
+          <span>{parseFloat(avgImdbRating).toFixed(2)}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>{avgUserRating}</span>
+          <span>{parseFloat(avgUserRating).toFixed(2)}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{parseFloat(avgRuntime).toFixed(2)} min</span>
         </p>
       </div>
     </div>
